@@ -1,0 +1,8 @@
+{
+  "hi": "Hello 👋",
+  "hello": "Hi there 😊",
+  "how are you": "I'm fine 😊 What about you?",
+  "what is your name": "I'm a simple Node.js chatbot 🤖",
+  "bye": "Goodbye 👋 Have a nice day!",
+  "help": "I can reply to simple questions like hi, hello, how are you etc."
+}

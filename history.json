@@ -13,5 +13,20 @@
     "user": "Hi",
     "bot": "How are you?",
     "time": "2026-06-07T16:04:07.850Z"
+  },
+  {
+    "user": "How are you",
+    "bot": "I'm fine 😊 What about you?",
+    "time": "2026-06-07T16:08:51.534Z"
+  },
+  {
+    "user": "How are you",
+    "bot": "I'm fine 😊 What about you?",
+    "time": "2026-06-07T16:13:48.175Z"
+  },
+  {
+    "user": "help",
+    "bot": "I can reply to simple questions like hi, hello, how are you etc.",
+    "time": "2026-06-07T16:14:04.359Z"
   }
 ]

@@ -6,7 +6,9 @@ const app = express();
 app.use(express.json());
 
 const FILE_PATH = "./history.json";
+const REPLY_PATH = "./reply.json";
 
+// history functions
 const getChats = () => {
     try {
         const data = fs.readFileSync(FILE_PATH, "utf8");
@@ -16,24 +18,42 @@ const getChats = () => {
     }
 };
 
-// helper: write data
 const saveChats = (data) => {
     fs.writeFileSync(FILE_PATH, JSON.stringify(data, null, 2));
+};
+
+// reply loader
+const getReplies = () => {
+    try {
+        const data = fs.readFileSync(REPLY_PATH, "utf8");
+        return JSON.parse(data);
+    } catch (err) {
+        return {};
+    }
 };
 
 app.post("/chat", (req, res) => {
     const { message } = req.body;
 
-    const msg = message.toLowerCase();
+    const msg = message.toLowerCase().trim();
+    const replies = getReplies();
 
-    if (msg === "hi" || msg === "hello") {
-        reply = "How are you?";
-    } else if (msg.includes("how are you")) {
-        reply = "I'm fine 😊 What about you?";
-    } else if (msg.includes("bye")) {
-        reply = "Goodbye 👋 Have a nice day!";
+    let reply = "";
+
+    // exact match first
+    if (replies[msg]) {
+        reply = replies[msg];
     } else {
-        reply = `You said: ${message}`;
+        // partial match fallback
+        const foundKey = Object.keys(replies).find(key =>
+            msg.includes(key)
+        );
+
+        if (foundKey) {
+            reply = replies[foundKey];
+        } else {
+            reply = `I don't understand: ${message}`;
+        }
     }
 
     const chats = getChats();
@@ -50,8 +70,7 @@ app.post("/chat", (req, res) => {
 });
 
 app.get("/history", (req, res) => {
-    const chats = getChats();
-    res.json(chats);
+    res.json(getChats());
 });
 
 app.get("/", (req, res) => {
@@ -63,7 +82,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is listening on http://localhost:${PORT}`);
 });
-
 
 // ===========================
 // require("dotenv").config();
